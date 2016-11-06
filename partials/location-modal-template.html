@@ -1,0 +1,18 @@
+<script type="text/ng-template" id="location-modal-template.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Select your location</h3> </div>
+    <div class="modal-body">
+        <div class="control-group">
+            <label class="control-label" for="keyword">Search</label>
+            <div class="controls">
+                <input type="text" name="keyword" id="keyword"> </div>
+        </div>
+        <map ng-if="render" center="[{{geopos.lat}}, {{geopos.lng}}]" zoom-control="true" zoom="10" on-click="click()"> </map>
+        <div>{{validation_text}}</div>
+    </div>
+    <div class="modal-footer">
+        <div>Latitude:{{geopos.lat}} Longitude:{{geopos.lng}}</div>
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-danger" ng-click="cancel()">Cancel</button>
+    </div>
+</script>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Pie Chart</title>
+    <meta charset="utf-8">
+    <script src="piechart.js"></script>
+    <style>
+
+    </style>
+    <script>
+        // kick things off
+        window.onload = createPieChart;
+
+        function createPieChart() {
+            //
+            // create a PieChart.
+            // 
+            var pieChart = new PieChart("piechart", {
+                includeLabels: true
+                , data: [120, 120, 120]
+                , labels: ["33%", "33%", "33%"]
+                , colors: [
+            	["#FFDAB9", "blue"]
+            	, ["#E6E6FA", "blue"]
+            	, ["#E0FFFF", "blue"]
+			]
+            });
+            //
+            // nothing appears until you call draw().
+            //
+            pieChart.draw();
+            /*
+             * If you want to draw the labels separately, you can set
+             * includeLabels to false, and call drawLabel() for each
+             * pie chart segment.
+             *
+            	for (var i = 0; i < pieChart.labels.length; i++) {
+            		pieChart.drawLabel(i);
+            	}
+             */
+            // * If you want to select a segment to highight it, you can
+            // * call select() for a given segment. Here's a little snippet
+            // * that animates selecting each segment.
+            // *
+            var segment = 0;
+            var max = 2;
+            var prevSegment = max;
+            var timeout = 300;
+            function nextSegment() {
+                pieChart.select(segment);
+                prevSegment = segment - 1;
+                if (segment === 0) {
+                    prevSegment = max;
+                }
+                pieChart.deselect(prevSegment);
+                segment++;
+                if (segment < pieChart.data.length) {
+                    setTimeout(nextSegment, timeout);
+                }
+                else {
+                    segment = 0;
+                    setTimeout(nextSegment, timeout);
+                }
+            }
+            setTimeout(nextSegment, timeout);
+        }
+    </script>
+</head>
+
+<body>
+    <canvas id="piechart" width="400" height="400"> </canvas>
+</body>
+
+</html>
