@@ -1,26 +1,38 @@
-app.controller('lunchController', function ($scope, $rootScope,restaurantService) {
-    
-    $scope.lunches=[];
-    
+app.controller('lunchController', function ($scope, $rootScope, restaurantService) {
+    $scope.lunches = [];
     $scope.useCurrentLocation = function () {
         // set geopos.lat,lng and address based on call to mobile location.
     };
-    $scope.findLunches = function (lat, lng) {
+    $scope.findLunches = function (localLat, localLng, maxResults) {
         // given a latitude and longitude find lunches in the area.
-        restaurantService.get().then(function(result){
-            $scope.lunches = result;
-        },function(error){
-            console.log('Error from google api' + error);
+        console.log("lat = " + localLat);
+        console.log("lng = " + localLng);
+        
+        $scope.lunches = [];
+        var map;
+        var infowindow;
+        var loc = {
+            lat: localLat
+            , lng: localLng
+        };
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: loc
+            , zoom: 15
         });
-//        $scope.lunches = [{
-//            "Name": "Tesco"
-//            , "Location": "1,1"
-//            , "Price": "1"
-//            }, {
-//            "Name": "Pret"
-//            , "Location": "2,2"
-//            , "Price": "1"
-//        }];
+        infowindow = new google.maps.InfoWindow();
+        var service = new google.maps.places.PlacesService(map);
+        service.nearbySearch({
+            location: loc
+            , radius: 500
+            , type: ['restaurant']
+        }, function (results, status) {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                for (var i = 0; i < results.length && i < maxResults; i++) {
+                    $scope.lunches.push(results[i]);
+                }
+                $scope.$apply();
+            }
+        });
     };
     $scope.selectRandomLunch = function () {
         // look at the list of lunches retrieved and select one at random

@@ -31,7 +31,7 @@
                     <input ng-model="geopos.address">
                     <button class="btn btn-primary" ng-click="selectLocation()">Select location</button>
                     <button class="btn btn-primary" ng-click="useCurrentLocation()">Use current location</button>
-                    <button class="btn btn-warning" ng-click="findLunches(geopos.lat,geopos.lng)">Find Lunches</button>
+                    <button ng-if="selected.lat" class="btn btn-warning" ng-click="findLunches(selected.lat,selected.lng,5)">Find Lunches</button>
                 </div>
             </div>
             <div class="panel panel-default" ng-show="lunches">
@@ -39,12 +39,17 @@
                     <h5>Places found</h5></div>
                 <div class="panel-body">
                     <div ng-repeat="lunch in lunches">
-                        <li>{{lunch.Name}}</li>
+                        <li>{{lunch.name}}</li>
                     </div>
-                    <button class ="btn btn-danger" ng-click="selectRandomLunch()">Select random lunch</button> {{randomLunch.Name}} </div>
+                    <button class="btn btn-danger" ng-click="selectRandomLunch()">Select random lunch</button>
+                    <div ng-if="randomLunch.name">
+                        <h3>Lunch today will be: {{randomLunch.name}} </h3>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    <div id="map"></div>
 </body>
 
 </html>
