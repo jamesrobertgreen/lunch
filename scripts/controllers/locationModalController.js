@@ -34,6 +34,8 @@ app.controller('locationModalController', function ($scope, $modal, $rootScope) 
 // Please note that $modalInstance represents a modal window (instance) dependency.
 // It is not the same as the $modal service used above.
 app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, lat, lng) {
+    $scope.geopos.lat = parseFloat(lat);
+    $scope.geopos.lng = parseFloat(lng);
     var opts = {
         zoom: 20
         , center: {
@@ -46,8 +48,6 @@ app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, lat, lng) 
             , position: google.maps.ControlPosition.TOP_RIGHT
         }
     };
-    $scope.geopos.lat = lat;
-    $scope.geopos.lng = lng;
     $scope.render = true;
     $scope.validation_text = "";
     $scope.$on('mapInitialized', function (evt, evtMap) {

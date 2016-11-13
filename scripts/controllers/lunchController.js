@@ -5,16 +5,10 @@ app.controller('lunchController', function ($scope, $rootScope, restaurantServic
     };
     $scope.findLunches = function (localLat, localLng, maxResults) {
         // given a latitude and longitude find lunches in the area.
-        console.log("lat = " + localLat);
-        console.log("lng = " + localLng);
-        
         $scope.lunches = [];
         var map;
         var infowindow;
-        var loc = {
-            lat: localLat
-            , lng: localLng
-        };
+        var loc = new google.maps.LatLng(localLat, localLng);
         map = new google.maps.Map(document.getElementById('map'), {
             center: loc
             , zoom: 15
