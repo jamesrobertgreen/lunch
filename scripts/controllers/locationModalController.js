@@ -1,14 +1,5 @@
 app.controller('locationModalController', function ($scope, $modal, $rootScope) {
-    $scope.geopos = {
-        lat: 51.523164
-        , lng: -0.15687704
-        , address: ""
-    };
-    $scope.selected = {
-        lat: ""
-        , lng: ""
-        , address: ""
-    };
+
     $scope.zoom = 20;
     $scope.selectLocation = function () {
         $scope.open('lg', 'location-modal-template.html');
@@ -76,7 +67,7 @@ app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, lat, lng) 
             $scope.marker.setPosition(place.geometry.location);
             $scope.geopos.lat = place.geometry.location.lat();
             $scope.geopos.lng = place.geometry.location.lng();
-            setAddress($scope.geopos.lat, $scope.geopos.lng);
+            $scope.setAddress($scope.geopos.lat, $scope.geopos.lng);
         });
         $scope.click = function (evt) {
             var latitude = evt.latLng.lat().toPrecision(8);
@@ -87,29 +78,10 @@ app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, lat, lng) 
             $scope.map.setZoom($scope.zoom);
             $scope.geopos.lat = latitude;
             $scope.geopos.lng = longitude;
-            setAddress(evt.latLng.lat(), evt.latLng.lng());
+            $scope.setAddress(evt.latLng.lat(), evt.latLng.lng());
         }
-        setAddress($scope.geopos.lat, $scope.geopos.lng);
+        $scope.setAddress($scope.geopos.lat, $scope.geopos.lng);
     });
-    var setAddress = function (lat, lng) {
-        var geocoder = new google.maps.Geocoder();
-        var latlng = new google.maps.LatLng(lat, lng);
-        geocoder.geocode({
-            'latLng': latlng
-        }, function (results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                if (results[1]) {
-                    $scope.geopos.address = results[1].formatted_address;
-                }
-                else {
-                    console.log('Location not found');
-                }
-            }
-            else {
-                console.log('Geocoder failed due to: ' + status);
-            }
-        });
-    };
     $scope.ok = function () {
         $scope.selected.lat = $scope.geopos.lat;
         $scope.selected.lng = $scope.geopos.lng;

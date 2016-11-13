@@ -1,7 +1,46 @@
 app.controller('lunchController', function ($scope, $rootScope, restaurantService) {
+    $scope.setAddress = function (lat, lng) {
+        var geocoder = new google.maps.Geocoder();
+        var latlng = new google.maps.LatLng(lat, lng);
+        geocoder.geocode({
+            'latLng': latlng
+        }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[1]) {
+                    $scope.geopos.address = results[1].formatted_address;
+                }
+                else {
+                    console.log('Location not found');
+                }
+            }
+            else {
+                console.log('Geocoder failed due to: ' + status);
+            }
+        });
+    };
+    $scope.geopos = {
+        lat: 51.523164
+        , lng: -0.15687704
+        , address: ""
+    };
+    $scope.selected = {
+        lat: ""
+        , lng: ""
+        , address: ""
+    };
     $scope.lunches = [];
     $scope.useCurrentLocation = function () {
         // set geopos.lat,lng and address based on call to mobile location.
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                $scope.$apply(function () {
+                    $scope.selected.lat = position.coords.latitude;
+                    $scope.selected.lng = position.coords.longitude;
+                    $scope.setAddress($scope.selected.lat,$scope.selected.lng);
+                    $scope.selected.address = $scope.geopos.address;
+                });
+            });
+        }
     };
     $scope.findLunches = function (localLat, localLng, maxResults) {
         // given a latitude and longitude find lunches in the area.
