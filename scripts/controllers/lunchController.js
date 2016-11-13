@@ -18,7 +18,7 @@ app.controller('lunchController', function ($scope, $rootScope, restaurantServic
         service.nearbySearch({
             location: loc
             , radius: 500
-            , type: ['restaurant']
+            , type: ['food']
         }, function (results, status) {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
                 for (var i = 0; i < results.length && i < maxResults; i++) {

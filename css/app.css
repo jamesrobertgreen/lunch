@@ -1,27 +1,8 @@
-.container{
-    margin:60px;
+.container {
+    margin: 2em;
 }
 
-.form-control{
-    margin-bottom: 10px;
-}
-
-.controls{
-    display: inline;
-}
-
-.pac-container {
-    z-index: 1051 !important;
-}
-
-.ion-close-circled:hover{
-    cursor: pointer;
-}
-
-.link:hover{
-    cursor: pointer;
-}
-
-.table-container{
-    overflow-x: auto; 
+.btn-lg{
+    margin-bottom: 1em;
+    margin-top: 0.5em;
 }
